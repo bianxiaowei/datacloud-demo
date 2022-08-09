@@ -33,7 +33,7 @@ export default{
 </script>
 <style lang="less" scoped>
 .el-header{
-    background-color: black;
+    background-color: #2e3133;
 }
 .el-main{
     padding-top: 0;

@@ -1,6 +1,6 @@
 <template>
-  <el-menu default-active="1-4-1" class="el-menu-vertical" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"  @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-    <h3>通用后台管理系统</h3>
+  <el-menu default-active="1-4-1" class="el-menu-vertical" background-color="#2e3133" text-color="#fff" active-text-color="#ffd04b"  @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+    <h3>{{isCollapse?"后台":"通用后台管理系统"}}</h3>
     <el-menu-item @click="clickMenu(item)" v-for="item in noChildren" :index="item.name" :key="item.name">
       <i :class="'el-icon-'+item.icon"></i>
       <span slot="title">{{item.lable}}</span>
@@ -41,7 +41,6 @@
   export default {
     data() {
       return {
-        isCollapse: false,
         menudata:[
           {
             path:"/home",
@@ -109,7 +108,15 @@
       },
       hasChildren(){
         return this.menudata.filter(item=>!!item.children);
+      },
+      isCollapse(){
+        return this.$store.state.tab.isCollapse;
       }
+    },
+
+    mounted () {
+      console.dir(this)
+      console.dir(this.$store)
     }
   }
 </script>
