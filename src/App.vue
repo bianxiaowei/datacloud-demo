@@ -19,4 +19,20 @@ html,body{
 #app {
   height: 100vh;
 }
+/* .el-header{
+    //padding-left: 0px;
+} */
+.el-breadcrumb__inner a, .el-breadcrumb__inner.is-link{
+    color: #fff;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner{
+    color: #fff;
+}
+.el-breadcrumb__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover{
+    color: yellowgreen;
+}
+.el-breadcrumb__inner a:hover, .el-breadcrumb__inner.is-link:hover{
+    color: yellowgreen;
+}
+
 </style>

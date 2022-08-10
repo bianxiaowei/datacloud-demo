@@ -2,7 +2,10 @@
     <header>
         <div class="l-content">
             <el-button @click="handleCollapse" plain icon="el-icon-menu" size="mini"></el-button>
-            <h3 style="color: #fff;">首页</h3>
+            <!-- <el-breadcrumb>
+                <el-breadcrumb-item v-for="item in  tags" :key="item.path" :to="{ path: item.path }">{{item.label}}</el-breadcrumb-item>
+            </el-breadcrumb> -->
+            <h3 style="color:white;margin-left: 20px;">{{currentMenu.label}}</h3>
         </div>
         <div class="r-content">
             <el-dropdown trigger="click" size="mini" icon="el-icon-user">
@@ -18,6 +21,7 @@
     </header>
 </template>
 <script>
+import {mapState} from "vuex"
     export default{
         name:"CommonHeader",
         data(){
@@ -27,6 +31,14 @@
             handleCollapse(){
                 this.$store.commit("collapseMenu");
             }
+        },
+        computed:{
+            ...mapState({
+                currentMenu: state => state.tab.currentMenu
+            }),
+            ...mapState({
+                tags: state => state.tab.tabList
+            })
         }
     }
 </script>
@@ -41,11 +53,20 @@ header{
     display: flex;
     align-items: center;
     .el-button{
-        margin-right: 20px;
+        //background: #2e3133;
+        border: 0;
     }
 }
 .r-content{
     
 }
+
+
+// .el-breadcrumb__inner a, .el-breadcrumb__inner.is-link{
+//     color: #fff;
+// }
+// .el-breadcrumb__item:last-child .el-breadcrumb__inner{
+//     color: #fff;
+// }
 </style>
 

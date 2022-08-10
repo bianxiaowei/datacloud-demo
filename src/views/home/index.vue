@@ -32,16 +32,24 @@
           </div>
         </el-card>
       </div>
-      <el-card style="height:280px"></el-card>
+      <el-card style="height:280px">
+        <div style="height:280px" ref="echarts"></div>
+      </el-card>
       <div class="graph">
-        <el-card style="height:260px"></el-card>
-        <el-card style="height:260px"></el-card>
+        <el-card style="height:260px" >
+          <div style="height:280px" ref="echarts2"></div>
+        </el-card>
+        <el-card style="height:260px" >
+          <div style="height:280px" ref="echarts3"></div>
+        </el-card>
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import * as echarts from 'echarts';
+
 export default {
   name: 'Home',
   data(){
@@ -49,29 +57,53 @@ export default {
       userImg:require("../../assets/logo.png"),
       tableData:[
         {
-          name:"VUE入门",
+          name:"VUE",
           todayBuy:1,
           monthBuy:20,
           totalBuy:100
         },
         {
-          name:"JAVA入门",
+          name:"JAVA",
           todayBuy:1,
           monthBuy:20,
           totalBuy:100
         },
         {
-          name:"C#入门",
+          name:"C#",
           todayBuy:1,
           monthBuy:20,
           totalBuy:100
         },
         {
-          name:"Anjular入门",
+          name:"Anjular",
           todayBuy:12,
           monthBuy:25,
           totalBuy:200
         },
+        {
+          name:"React",
+          todayBuy:12,
+          monthBuy:25,
+          totalBuy:200
+        },
+        {
+          name:"Paython",
+          todayBuy:12,
+          monthBuy:25,
+          totalBuy:200
+        },
+        {
+          name:".NET",
+          todayBuy:12,
+          monthBuy:25,
+          totalBuy:200
+        },
+        {
+          name:".NET",
+          todayBuy:12,
+          monthBuy:25,
+          totalBuy:200
+        }
       ],
       tableLabel:{
         name:"课程",
@@ -116,8 +148,116 @@ export default {
           icon:"s-goods",
           color:"#5ab1ef"
         }
-      ]
+      ],
+      optionData : {
+        title: {
+          text: 'Stacked Line'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '10%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            name: 'Email',
+            type: 'line',
+            stack: 'Total',
+            data: [120, 132, 101, 134, 90, 230, 210]
+          },
+          {
+            name: 'Union Ads',
+            type: 'line',
+            stack: 'Total',
+            data: [220, 182, 191, 234, 290, 330, 310]
+          },
+          {
+            name: 'Video Ads',
+            type: 'line',
+            stack: 'Total',
+            data: [150, 232, 201, 154, 190, 330, 410]
+          },
+          {
+            name: 'Direct',
+            type: 'line',
+            stack: 'Total',
+            data: [320, 332, 301, 334, 390, 330, 320]
+          },
+          {
+            name: 'Search Engine',
+            type: 'line',
+            stack: 'Total',
+            data: [820, 932, 901, 934, 1290, 1330, 1320]
+          }
+        ]
+      },
+      optionData2 : {
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          top: '5%',
+          left: 'center'
+        },
+        series: [
+          {
+            name: 'Access From',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: '40',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: [
+              { value: 1048, name: 'Search Engine' },
+              { value: 735, name: 'Direct' },
+              { value: 580, name: 'Email' },
+              { value: 484, name: 'Union Ads' },
+              { value: 300, name: 'Video Ads' }
+            ]
+          }
+        ]
+      }
     }
+  },
+  mounted(){
+    const echartsObject = echarts.init(this.$refs.echarts);
+    const echartsObject2 = echarts.init(this.$refs.echarts2);
+    const echartsObject3 = echarts.init(this.$refs.echarts3);
+    echartsObject.setOption(this.optionData)
+    echartsObject2.setOption(this.optionData2)
+    echartsObject3.setOption(this.optionData2)
   }
 }
 </script>

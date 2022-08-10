@@ -1,17 +1,17 @@
 <template>
   <el-menu default-active="1-4-1" class="el-menu-vertical" background-color="#2e3133" text-color="#fff" active-text-color="#ffd04b"  @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-    <h3>{{isCollapse?"后台":"通用后台管理系统"}}</h3>
+    <h3>{{isCollapse?"":"通用后台管理系统"}}</h3>
     <el-menu-item @click="clickMenu(item)" v-for="item in noChildren" :index="item.name" :key="item.name">
       <i :class="'el-icon-'+item.icon"></i>
-      <span slot="title">{{item.lable}}</span>
+      <span slot="title">{{item.label}}</span>
     </el-menu-item>
     <el-submenu v-for="item in hasChildren"  :index="item.name" :key="item.name">
       <template slot="title">
         <i :class="'el-icon-'+item.icon"></i>
-        <span slot="title">{{item.lable}}</span>
+        <span slot="title">{{item.label}}</span>
       </template>
       <el-menu-item-group v-for="(subItem) in item.children"  :key="subItem.name">
-        <el-menu-item :index="subItem.name">{{subItem.lable}}</el-menu-item>
+        <el-menu-item  @click="clickMenu(subItem)" :index="subItem.name">{{subItem.label}}</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>
@@ -45,43 +45,43 @@
           {
             path:"/home",
             name:"home",
-            lable:"首页",
+            label:"首页",
             icon:"s-home",
             url:"home"
           },
           {
             path:"/mall",
             name:"mall",
-            lable:"商品管理",
+            label:"商品管理",
             icon:"video-play",
             url:"MallManage/MallManage"
           },
           {
             path:"/user",
             name:"user",
-            lable:"用户管理",
+            label:"用户管理",
             icon:"user",
             url:"UserManage/UserManage"
           },
           {
             path: '/other-manage',
             name: 'other-manage',
-            lable:"其他",
+            label:"其他",
             icon:"location",
             children:[
               {
                 path:"/other-manage/other1",
                 name:"other-manage-other1",
-                lable:"其他1",
+                label:"其他1",
                 icon:"user",
-                url:"UserManage/UserManage"
+                url:"Other-manage/Other1"
               },
               {
-                path:"/other-manage//other2",
+                path:"/other-manage/other2",
                 name:"other-manage-other2",
-                lable:"其他2",
+                label:"其他2",
                 icon:"user",
-                url:"UserManage/UserManage"
+                url:"Other-manage/Other2"
               }
             ]
           }
@@ -99,7 +99,7 @@
         this.$router.push({
           name:item.name
         })
-
+        this.$store.commit('selectMenu',item);
       }
     },
     computed:{

@@ -7,6 +7,7 @@
             <el-header>
                 <common-header></common-header>
             </el-header>
+            <common-tag></common-tag>
             <el-main>
                 <router-view></router-view>
             </el-main>
@@ -20,11 +21,13 @@
 <script>
 import CommonAside from "../components/layouts/CommonAside.vue";
 import CommonHeader from "../components/layouts/CommonHeader.vue";
+import CommonTag from '../components/layouts/CommonTag.vue';
 export default{
     name:"Main",
     components:{
         CommonAside,
-        CommonHeader
+        CommonHeader,
+        CommonTag
     },
     data(){
         return {}
