@@ -1,11 +1,13 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
+import {routeHead} from "../api/config"
 import Main from "../views/main.vue"
 import Home from "../views/home/index.vue"
 import Mall from "../views/mall/index.vue"
 import User from "../views/user/index.vue"
 import OtherPage1 from "../views/other/otherPage1"
 import OtherPage2 from "../views/other/otherPage1"
+import Login from "../views/login/index.vue"
 
 Vue.use(VueRouter);
 
@@ -42,11 +44,17 @@ const routes =[
                 component:OtherPage2
             }
         ]
+    },
+    {
+        path:"/login",
+        name:"login",
+        component:Login,
     }
 ]
 
 const router = new VueRouter({
     mode:"history",
+    base:routeHead,
     routes
 })
 

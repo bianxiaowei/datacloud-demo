@@ -1,56 +1,74 @@
-// 二次封装axios 拦截器
-
 import axios from 'axios'
-import config from '../config/index'
-// 设置配置 根据开发 和 生产环境不一样 
-const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
-class HttpRequst {
-  constructor(baseUrl) {
-    this.baseUrl = baseUrl
-  }
-  getInsideConfig () {
-    const config = {
-      baseURL: this.baseUrl,
-      header: {
+import Vue from 'vue'
+import VueJsonp from 'vue-jsonp'
 
-      }
+Vue.use(VueJsonp)
+
+import {
+  loginUrl,
+  authStatus,
+  serveUrl
+} from './config'
+import {
+  Notification
+} from 'element-ui';
+
+const ajax = axios.create({
+  // @mark：线上校验baseURL
+  // baseURL: '/',
+  baseURL: serveUrl,
+  timeout: 8000,
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
+  },
+});
+
+ajax.interceptors.request.use(async (request) => {
+  let result = await Vue.jsonp(authStatus, {})
+  if(result && result.hasLogin === "false" || !result.hasLogin) {
+    debugger
+    location.href = loginUrl
+  }
+  return request
+})
+
+ajax.interceptors.response.use(function (response) {
+  let data = response.data;
+  if (!data.success && data.message) {
+    if (data.code === 1000) { //用户没有登录
+      location.href = loginUrl;
+    } else if (data.code === 2000) {
+      debugger
+      console.log(serveUrl);
+      location.href = serveUrl;
+    } else {
+      Notification({
+        title: '请求错误：' + data.message,
+        type: 'error'
+      });
     }
-    return config
   }
-  interceptors (instance) {
-    instance.interceptors.request.use(function (config) {
-      // 在发送请求之前做些什么
-      console.log('拦截处理请求');
-      return config;
-    }, function (error) {
-      // 对请求错误做些什么
-      return Promise.reject(error);
-    });
+  return response.data;
+}, function (error) {
+  Notification({
+    title: '请求错误：' + error,
+    type: 'error'
+  });
+  return Promise.reject(error);
+});
 
-    instance.interceptors.response.use(function (response) {
-      console.log('处理相应');
-      // 对响应数据做点什么
-      return response.data;
-    }, function (error) {
-      console.log(error);
-      // 对响应错误做点什么
-      return Promise.reject(error);
-    });
+export default (url = '', data = {}, type = "GET") => {
+  let dataType;
+  if (type === "GET") {
+    dataType = "params"
+  } else {
+    dataType = "data"
   }
-  // {
-  //   baseURL:'/rApi'
-  // }
-  request (options) {
-    // 请求
-    // /api/getList  /api/getHome
-    const instanse = axios.create()
-    // 技巧
-    // /api // api1
-    options = { ...(this.getInsideConfig()), ...options }
-    // console.log(options);
-    this.interceptors(instanse)
-    return instanse(options)
-  }
+  const options = {
+    method: type,
+    [dataType]: data,
+    url,
+  };
+  return ajax(options);
 }
-
-export default new HttpRequst(baseUrl)
