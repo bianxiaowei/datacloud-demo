@@ -24,16 +24,16 @@ export const baseConfig = {
 
 
 axios.defaults.withCredentials=true
-axios.interceptors.request.use(async (request) => {
-  // let curUrl = location.href;
-  let result = await Vue.jsonp(authStatus, {});
-  if (result && (result.hasLogin === "false" || !result.hasLogin)) {
-    console.log(loginUrl);
-    // location.href = `${login}${curUrl}`;
-    location.href = loginUrl
-  }
-  return request;
-});
+// axios.interceptors.request.use(async (request) => {
+//   // let curUrl = location.href;
+//   let result = await Vue.jsonp(authStatus, {});
+//   if (result && (result.hasLogin === "false" || !result.hasLogin)) {
+//     console.log(loginUrl);
+//     // location.href = `${login}${curUrl}`;
+//     location.href = loginUrl
+//   }
+//   return request;
+// });
 // 添加响应拦截器
 axios.interceptors.response.use(
   function (response) {
@@ -82,14 +82,6 @@ export default {
   logout: (params) =>
     axios.get(
       "/bigdata-portal-web/login/logout", {
-        params
-      }
-    ),
-
-  // 是否展示首页接口
-  getConfigByCode: (params) =>
-    axios.get(
-      "/bigdata-portal-web/configManageWeb/getConfigByCode", {
         params
       }
     ),

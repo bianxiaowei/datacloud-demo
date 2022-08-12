@@ -8,6 +8,7 @@ import User from "../views/user/index.vue"
 import OtherPage1 from "../views/other/otherPage1"
 import OtherPage2 from "../views/other/otherPage1"
 import Login from "../views/login/index.vue"
+import Api from '../api/api';
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,20 @@ const router = new VueRouter({
     base:routeHead,
     routes
 })
+
+
+router.beforeEach(async (to, from, next) => {
+    const jumpLogin = to.path.toLowerCase().includes('login')
+    const jumpRoot = to.path === '/'
+    const target = (!jumpRoot && !jumpLogin) || (to.params.redirect)
+    if (target) return next()
+    const { hasLogin } = await Api.checkIsLogin()
+    if (!hasLogin) {
+      next({name: 'login', params: { redirect: true }, replace: true})
+    } else {
+      next({path: '/home', replace: true})
+    }
+  })
 
 //解决进入同一路由报错问题
 const originalPush = VueRouter.prototype.push

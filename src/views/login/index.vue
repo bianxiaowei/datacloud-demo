@@ -62,9 +62,9 @@ export default {
     ...mapGetters(['userInfo']),
   },
   methods: {
-    ...mapMutations({
-      setUserInfo: 'SET_USER_INFO'
-    }),
+    // ...mapMutations({
+    //   setUserInfo: 'SET_USER_INFO'
+    // }),
 
     async submitFnc () {
       this.$refs.loginForm.validate(async valid => {
@@ -77,11 +77,12 @@ export default {
             const data = response.data
           if (data.success) {
             debugger
+            console.dir(123)
             const result = data.result
-            this.setUserInfo(result || {})
-            // this.$router.replace({
-            //   path: "/home"
-            // })
+            //this.setUserInfo(result || {})
+            this.$router.replace({
+              path: "/home"
+            })
           }
         }
       })
